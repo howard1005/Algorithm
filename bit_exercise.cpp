@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <malloc.h>
-
+#include <time.h>
+#include <string.h>
 
 int bit_memcpy(unsigned char *dst, int dst_bit_idx, unsigned char *src, int src_bit_idx, int bit_size){
     unsigned char tmp1 = 0;
@@ -62,12 +63,13 @@ void print_hex(unsigned char *buf, int buf_size){
     printf("\n");
 }
 
+#define SIZE 100000000
 
 int main(){
     printf("BIT EXERCICSE After Expert exam\n");
 
-    unsigned char *test_buf = (unsigned char *)malloc(100);
-    for (int i = 0; i < 100; i++){
+    unsigned char *test_buf = (unsigned char *)malloc(SIZE);
+    for (int i = 0; i < SIZE; i++){
         test_buf[i] = 0;
     }
     printf("test_buf address : 0x%08x\n", test_buf);
@@ -84,10 +86,25 @@ int main(){
 
     printf("(0xff >> 5) : 0x%08x\n", (0xff >> 5));
 
-    unsigned char *test_buf2 = (unsigned char *)malloc(100);
-    for (int i = 0; i < 100; i++){
+    unsigned char *test_buf2 = (unsigned char *)malloc(SIZE);
+    for (int i = 0; i < SIZE; i++){
         test_buf2[i] = rand() % 128;
     }
-    bit_memcpy(test_buf, 1, test_buf2, 0, 21);
-    print_hex(test_buf, 100);
+    clock_t start, end;
+    start = clock();
+    bit_memcpy(test_buf, 0, test_buf2, 0, SIZE*8);
+    end = clock();
+    printf("time %f\n", (double)(end - start));
+
+    start = clock();
+    memcpy(test_buf, test_buf2, SIZE);
+    end = clock();
+    printf("time %f\n", (double)(end - start));
+    
+    /*
+    printf("[test_buf]\n");
+    print_hex(test_buf, SIZE);
+    printf("[test_buf2]\n");
+    print_hex(test_buf2, SIZE);
+    */
 }
