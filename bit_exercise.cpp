@@ -24,7 +24,7 @@ int bit_memcpy(unsigned char *dst, int dst_bit_idx, unsigned char *src, int src_
         // src의 현재 1바이트를 넣고, 앞을 날립니다.
         tmp2 = src[src_bit_idx / 8];
         tmp2_bit_idx = src_bit_idx % 8;
-        tmp2 &= (0xff >> tmp1_bit_idx);
+        tmp2 &= (0xff >> tmp2_bit_idx);
 
         // dst 현재 바이트의 빈공간 크기 계산
         tmp1_space = 8 - tmp1_bit_idx;
